@@ -1,37 +1,6 @@
 trigger:
 - '*'
 
-pool:
-  vmImage: 'ubuntu-18.04'
-  demands:
-  - npm
-
-variables:
-  buildConfiguration: 'Release'
-  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '3.1.300'
-
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
-  inputs:
-    version: '$(dotnetSdkVersion)'
-
-...
-多段パイプラインは、それがパイプラインを推進していますようご変更が通過する異なる段階を定義することができます。各ステージは、パイプラインのそのフェーズを実行するために必要なエージェント、変数、およびステップを定義します。このモジュールでは、ビルドを実行するための1つのステージを定義します。WebアプリケーションをAppServiceにデプロイするための第2段階を定義します。
-
-既存のビルド構成をマルチステージパイプラインに変換するには、構成にstagesセクションを追加します。次に、1つ以上のstageセクションを追加して、パイプラインの各フェーズを定義します。ステージはジョブに分割されます。ジョブは、1つの単位として順番に実行される一連のステップです。
-
-Deployステージをパイプラインに追加する前に、まず既存のビルド構成をマルチステージパイプラインに変換しましょう。
-
-Visual Studio Codeのプロジェクトから、azure-pipelines.ymlを開き、その内容を次のコードに置き換えます。
-
-yml
-
-コピー
-trigger:
-- '*'
-
 variables:
   buildConfiguration: 'Release'
 
@@ -47,6 +16,7 @@ stages:
       - npm
 
     variables:
+      buildConfiguration: 'Release'
       wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
       dotnetSdkVersion: '3.1.300'
 
